@@ -6,13 +6,13 @@ var restSchema = mongoose.Schema({
 			street:String,
 			zipcode:String,
 			},
-	borough:String;
-	cuisine:String;
+	borough:String,
+	cuisine:String,
 	grades:[{date:Date,
 			grade:String,
 			Score:Number,
 			}],
-	name:String
+	name:String,
 	restaurant_id:String
 });
 
