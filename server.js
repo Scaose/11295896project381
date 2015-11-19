@@ -3,19 +3,14 @@ var mongoose = require('mongoose');
 var app = express();
 var MONGODBURL = 'mongodb://localhost/test';
 
-var restSchema = require('./models/restaurant');
+var restSchema = require('./models/test');
 
 
-/*app.get('/', function(req, res){
+app.get('/', function(req, res){
   res.sendfile('ejs/main.html');
-});*/
-
-app.post('/', function(req, res){
-	res.sendFile(__dirname + '/ejs/index.html'); 
 });
 
-
-app.get('/new', function(req,res) {
+app.get('/create', function(req,res) {
 	res.sendFile(__dirname + '/ejs/create.html'); 
 });
 
@@ -23,8 +18,38 @@ app.get('/display', function(req,res) {
 	res.sendFile(__dirname + '/ejs/display.html');  
 });
 
+
+app.get('/newRest', function(req,res) {
+	var newRest = {name: ""};
+	newRest.name = req.query.name;
+
+	mongoose.connect(MONGODBURL);
+	var db = mongoose.connection;
+	db.on('error', console.error.bind(console, 'connection error:'));
+	db.once('open', function (callback) {
+		var restaurant = mongoose.model('Restaurant', restSchema);
+		var restdata = new restaurant(newRest);
+		restdata.save(function(err) {
+			res.write('<html><body>');
+			if (err) {
+				res.write('<p>'+err.message+'</p>');
+			}
+			else {
+				res.write('<h1>Create Succeed</h1>');
+				console.log('Created: ',k._id);
+			}
+			res.write('<br><a href="/">Go Home</a></body></html>');
+			res.end();
+			db.close();
+		});
+	});
+});
+
+
+
+
 app.get('/searchRest',function(req,res) {
-	//console.log(req.query.name);
+
 mongoose.connect(MONGODBURL);
 	var db = mongoose.connection;
 	db.on('error', console.error.bind(console, 'connection error:'));
