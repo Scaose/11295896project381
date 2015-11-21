@@ -5,7 +5,9 @@
 "version": "0.0.1",
 "dependencies": {
 "mongoose": "*",
-"express" : "*"
+"express" : "*",
+"body-parser" : "*",
+"ejs" : "*"
 },
 "engine": "node >= 0.10.0",
 "scripts": {"start": "node server"}

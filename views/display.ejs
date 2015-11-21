@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Search Restaurant</title>
+</head>
+<body>
+<form action="/searchRest" method='GET' align="center">
+<table border='1'>
+  <tr><th>Name</th><th>Delete</th></tr>
+  <% for(var i=0; i<restResult.length; i++){ %>
+        <% if(restResult[i].name != null){ %>
+          <tr><td><%= restResult[i].name %></td><td><input type='checkbox' /></tr>
+        <% } %>
+  <% } %>
+</table>
+</form>
+</body>
+</html>

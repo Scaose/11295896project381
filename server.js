@@ -1,34 +1,53 @@
 var express = require('express');
 var mongoose = require('mongoose');
+var bodyparser = require('body-parser');
 var app = express();
-var MONGODBURL = 'mongodb://localhost/test';
+var MONGODBURL = 'mongodb://127.0.0.1:27017/test';
 
-var restSchema = require('./models/test');
+var restSchema = require('./models/restaurant.js');
 
+app.use(bodyparser.urlencoded({ extended: true }));
+app.set('view engine', 'ejs');
 
 app.get('/', function(req, res){
-  res.sendfile('ejs/main.html');
+  res.sendfile('html/main.html');
 });
 
+//create.html
 app.get('/create', function(req,res) {
-	res.sendFile(__dirname + '/ejs/create.html'); 
+	res.sendFile(__dirname + '/html/create.html'); 
 });
 
+//Read action
 app.get('/display', function(req,res) {
-	res.sendFile(__dirname + '/ejs/display.html');  
+        mongoose.connect(MONGODBURL);
+        var db = mongoose.connection;
+        db.on('error', console.error.bind(console, 'connection error:'));
+        db.once('open', function (callback){
+	  var restaurant = mongoose.model('MiniRestaurant', restSchema);
+		restaurant.find({}, function(err, results){
+		  if(err)
+		    res.write("<p>Error: " + err.message + "</p>");
+		  db.close();
+		  //res.render('display',  {restResult : [{name: "ABC"},{name: "DEF"}]}); 
+		  res.render('display',  {restResult : results}); 
+		  res.end(); 
+		});
+		    
+	});
 });
 
-
-app.get('/newRest', function(req,res) {
-	var newRest = {name: ""};
-	newRest.name = req.query.name;
-
+//Create action
+app.post('/newRest', function(req,res) {
+	var restData = {name: ""};
+	restData.name = req.body.dataName;
 	mongoose.connect(MONGODBURL);
 	var db = mongoose.connection;
 	db.on('error', console.error.bind(console, 'connection error:'));
 	db.once('open', function (callback) {
-		var restaurant = mongoose.model('Restaurant', restSchema);
-		var restdata = new restaurant(newRest);
+		console.log("Connect to DB");
+		var restaurant = mongoose.model('MiniRestaurant', restSchema);
+		var restdata = new restaurant(restData);
 		restdata.save(function(err) {
 			res.write('<html><body>');
 			if (err) {
@@ -36,7 +55,7 @@ app.get('/newRest', function(req,res) {
 			}
 			else {
 				res.write('<h1>Create Succeed</h1>');
-				console.log('Created: ',k._id);
+				console.log('A model is Created');
 			}
 			res.write('<br><a href="/">Go Home</a></body></html>');
 			res.end();
