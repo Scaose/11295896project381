@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script>
+  function OnSubmit(){
+    var newName = document.getElementById("txtName").value;
+    var act = "/name/"+ newName;
+    $.ajax({
+	  url: act,
+	  type: 'PUT',
+	  //data: "name=John&location=Boston",
+	  success: function(data) {
+	    alert('PUT was performed.');
+	  }
+    });
+  }
+</script>
+<head>
+<title>Update Restaurant</title>
+</head>
+<body>
+  <% for(var i=0; i<restResult.length; i++){ %>
+        <% if(restResult[i].name != null){ %>
+          <p><input type='text' value='<%= restResult[i].name %>' id='txtName' /></p>
+        <% } %>
+  <% } %>
+<p align='left'><input type='button' value='submit' Onclick='OnSubmit()'/></p>
+</body>
+</html>

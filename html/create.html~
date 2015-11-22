@@ -51,7 +51,7 @@
   </tr>-->
   <tr>
       <td>name:</td>
-      <td align="left"><input type="text" name="dataname" ></td>
+      <td align="left"><input type="text" name="dataName" ></td>
   </tr>
 
 </table>
