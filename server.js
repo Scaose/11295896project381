@@ -40,21 +40,16 @@ app.get('/create', function(req,res) {
 //update.ejs
 app.get('/update/:reqName', function(req, res){
 	console.log("Catch update request");
-});
-
-//Read action
-app.get('/display', function(req,res) {
-        mongoose.connect(MONGODBURL);
+	mongoose.connect(MONGODBURL);
         var db = mongoose.connection;
         db.on('error', console.error.bind(console, 'connection error:'));
         db.once('open', function (callback){
 	  var restaurant = mongoose.model('MiniRestaurant', restSchema);
-		restaurant.find({}, function(err, results){
+		restaurant.find({name:req.params.reqName}, function(err, results){
 		  if(err)
 		    res.write("<p>Error: " + err.message + "</p>");
 		  db.close();
-		  //res.render('display',  {restResult : [{name: "ABC"},{name: "DEF"}]}); 
-		  res.render('display',  {restResult : results}); 
+		  res.render('update',  {restResult : results}); 
 		  res.end(); 
 		});
 		    
@@ -63,6 +58,7 @@ app.get('/display', function(req,res) {
 
 //Create action
 app.post('/newRest', function(req,res) {
+	console.log("Create get it");
 	//var restData = {name: ""};
 	//restData.name = req.body.dataName;
 	console.log(req.body.dataName);
@@ -99,18 +95,65 @@ app.post('/newRest', function(req,res) {
 	});
 });
 
+//Read action
+app.get('/display', function(req,res) {
+	console.log("Read get it");
+        mongoose.connect(MONGODBURL);
+        var db = mongoose.connection;
+        db.on('error', console.error.bind(console, 'connection error:'));
+        db.once('open', function (callback){
+	  var restaurant = mongoose.model('MiniRestaurant', restSchema);
+		restaurant.find({}, function(err, results){
+		  if(err)
+		    res.write("<p>Error: " + err.message + "</p>");
+		  db.close();
+		  res.render('display',  {restResult : results}); 
+		  res.end(); 
+		});
+		    
+	});
+});
+
 //Update action
-app.put('/updateRest/name/:name', function(req, res){
+app.put('/updateRest/name/:name/newName/:newName', function(req, res){
 	console.log("Put get it");
+	mongoose.connect(MONGODBURL);
+        var db = mongoose.connection;
+        db.on('error', console.error.bind(console, 'connection error:'));
+        db.once('open', function (callback){
+	  var restaurant = mongoose.model('MiniRestaurant', restSchema);
+		restaurant.findOneAndUpdate({name:req.params.name},{name:req.params.newName}, {upsert:false}, function(err){
+		  if(err)
+		    res.write("<p>Error: " + err.message + "</p>");
+		  db.close();
+		  res.write("<p>Success</p>");
+		  res.end(); 
+		});
+		    
+	});
 });
 
 //Delete action
 app.delete('/deleteRest/name/:name', function(req, res){
-	console.log("Get it");
+	console.log("Delete Get it");
+	mongoose.connect(MONGODBURL);
+        var db = mongoose.connection;
+        db.on('error', console.error.bind(console, 'connection error:'));
+        db.once('open', function (callback){
+	  var restaurant = mongoose.model('MiniRestaurant', restSchema);
+		restaurant.findOneAndRemove({name:req.params.name}, function(err){
+		  if(err)
+		    res.write("<p>Error: " + err.message + "</p>");
+		  db.close();
+		  res.write("Delete success");
+		  res.end(); 
+		});
+		    
+	});
 });
 
 
-app.get('/searchRest',function(req,res) {
+/*app.get('/searchRest',function(req,res) {
 
 mongoose.connect(MONGODBURL);
 	var db = mongoose.connection;
@@ -132,7 +175,7 @@ mongoose.connect(MONGODBURL);
 			db.close();
 		});
 	});
-});
+});*/
 
 
 

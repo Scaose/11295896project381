@@ -12,7 +12,8 @@
 	  type: 'DELETE',
 	  //data: "name=John&location=Boston",
 	  success: function(data) {
-	    alert('Load was performed.');
+	    alert(data);
+	    document.location.href='/display';
 	  }
         });
       }
