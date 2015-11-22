@@ -5,8 +5,56 @@
 </head>
 <body>
 <form action="/newRest" method="POST" align="center">
-Name: <input type="text" name="name"><br>
+<table style="width:100%" align="left">
+  <tr>
+      <td>address:</td>
+      <td>building:</td>
+      <td align="left"><input type="text" name="building"></td>
+  </tr>
+  <tr>
+      <td></td>
+      <td>coord:</td>
+      <td align="left">lat:<input type="number" step="any" name="lat">long:<input type="number" step="any" name="long"></td>
+  </tr>
+  <tr>
+      <td></td>
+      <td>street:</td>
+      <td align="left"><input type="text" name="street"></td>
+  </tr>
+  <tr>
+      <td></td>
+      <td>zipcode:</td>
+      <td align="left"><input type="text" name="zipcode" ></td>
+  </tr>
+  <tr>
+      <td>borough:</td>
+      <td align="left"><input type="text" name="borough" ></td>
+  </tr>
+  <tr>
+      <td>cuisine:</td>
+      <td align="left"><input type="text" name="cuisine" ></td>
+  </tr>
+  <!--<tr>
+      <td>grades:</td>
+      <td>date:</td>
+      <td align="left"><input type="date" name="date" ></td>
+  </tr>
+  <tr>
+      <td></td>
+      <td>grade:</td>
+      <td align="left"><input type="text" name="grade" ></td>
+  </tr>
+  <tr>
+      <td></td>
+      <td>Score:</td>
+      <td align="left"><input type="number" step="any" name="Score" ></td>
+  </tr>-->
+  <tr>
+      <td>name:</td>
+      <td align="left"><input type="text" name="dataname" ></td>
+  </tr>
 
+</table>
 <input type="submit" value="create">	
 </form>
 </body>
