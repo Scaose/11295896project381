@@ -24,16 +24,22 @@
 <title>Search Restaurant</title>
 </head>
 <body>
+<h1>Search Restaurant</h1>
 <form name='submitForm' id='submitForm' action="/deleteRest" align="center">
 <table border='1'>
-  <tr><th>Name</th><th>Delete</th></tr>
+  <tr><th>Name</th><th>Restaurant ID</th><th>Delete</th></tr>
   <% for(var i=0; i<restResult.length; i++){ %>
         <% if(restResult[i].name != null){ %>
-          <tr><td id='dataName'><a href='/update/<%= restResult[i].name%>'><%= restResult[i].name %></a></td><td><input name='delete' type='radio' value='<%= restResult[i].name %>'/></tr>
+          <tr>
+		<td id='dataName'><a href='/update/<%= restResult[i].name%>'><%= restResult[i].name %></a></td>
+		<td><%= restResult[i].restaurant_id %></td>
+		<td><input name='delete' type='checkbox' value='<%= restResult[i].restaurant_id %>'/></td>
+		</tr>
         <% } %>
   <% } %>
 </table>
 <p align='left'><input type='button' value='submit' Onclick='OnSubmit()'/></p>
 </form>
+<a href="/">Go Home</a>
 </body>
 </html>

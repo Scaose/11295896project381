@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>New Restaurant</title>
+</head>
+<body>
+
+<form action="/newRest" method="POST" align="center">
+<fieldset>
+<legend>New Restaurant Information:</legend>
+	<% var id = restResult.length-1 %>
+	<fieldset>
+	<legend>Address:</legend>
+	building:<br>
+	<input type="text" name="building"><br>
+		<fieldset>
+		<legend>coord:</legend>
+		lat:<br>
+		<input type="number" step="any" name="lat"><br>
+		long:<br>
+		<input type="number" step="any" name="long"><br>
+		</fieldset>
+	street:<br>
+	<input type="text" name="street"><br>
+	zipcode:<br>
+	<input type="text" name="zipcode"><br>
+	</fieldset>
+	
+	borough:<br>
+	<input type="text" name="borough"><br>
+	cuisine:<br>
+	<input type="text" name="cuisine"><br>
+
+	<!--
+	<fieldset>
+	<legend>grades:</legend>
+	date:<br>
+	<input type="date" name="date"><br>
+	grade:<br>
+	<input type="text" name="grade"><br>
+	Score:<br>
+	<input type="number" step="any" name="Score"><br>
+	</fieldset>
+	-->
+
+ 	name:<br>
+	<input type="text" name="dataName"><br>
+	restaurant_id:<br>
+	<input type="text" name="restaurant_id" value="<%= id %>" readOnly="true"><br>
+
+<input type="submit" value="create" />	
+</fieldset>
+</form>
+
+<a href="/">Go Home</a>
+</body>
+</html>

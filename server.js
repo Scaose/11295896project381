@@ -6,25 +6,6 @@ var MONGODBURL = 'mongodb://localhost:27017/test';
 
 var restSchema = require('./models/restaurant.js');
 
-/*function Restaurant(building,lat,long,street,zipcode,borough,cuisine,name,restaurant_id) {
-	function Address(building,lat,long,street,zipcode) {
-		this.building = building;
-		this.coord = [];
-		this.coord.push(lat);
-		this.coord.push(long);
-		this.street = street;
-		this.zipcode = zipcode;
-	}
-	this.address = new Address(building,lat,long,street,zipcode);
-	this.borough = borough;
-	this.cuisine = cuisine;
-	//this.grades = [];
-	this.name = name;
-	this.restaurant_id = restaurant_id;
-}*/
-
-
-
 app.use(bodyparser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 
@@ -32,9 +13,30 @@ app.get('/', function(req, res){
   res.sendfile('html/main.html');
 });
 
+/*
 //create.html
 app.get('/create', function(req,res) {
 	res.sendFile(__dirname + '/html/create.html'); 
+});
+*/
+
+//create.ejs
+app.get('/create', function(req,res) {
+	console.log("send id to create page");
+        mongoose.connect(MONGODBURL);
+        var db = mongoose.connection;
+        db.on('error', console.error.bind(console, 'connection error:'));
+        db.once('open', function (callback){
+	  var restaurant = mongoose.model('MiniRestaurant', restSchema);
+		restaurant.find({}, function(err, results){
+		  if(err)
+		    res.write("<p>Error: " + err.message + "</p>");
+		  db.close();
+		  res.render('create',  {restResult : results}); 
+		  res.end(); 
+		});
+		    
+	});
 });
 
 //update.ejs
@@ -67,7 +69,6 @@ app.post('/newRest', function(req,res) {
 	db.on('error', console.error.bind(console, 'connection error:'));
 	db.once('open', function (callback) {
 		console.log("Connect to DB");
-		var id = Math.floor((Math.random() * 10000000) + 1); 
 		var restaurant = mongoose.model('MiniRestaurant', restSchema);
 		var r = new restaurant({address:{building: req.body.building,
 				         coord: [parseInt(req.body.lat),parseInt(req.body.long)],
@@ -77,7 +78,7 @@ app.post('/newRest', function(req,res) {
 				       borough : req.body.borough,
 				       cuisine : req.body.cuisine,
 				       name : req.body.dataName,
-				       restaurant_id : id});
+				       restaurant_id : req.body.restaurant_id});
 		//var newData = new restaurant (r);
 		r.save(function(err) {
 			res.write('<html><body>');
@@ -88,11 +89,18 @@ app.post('/newRest', function(req,res) {
 				res.write('<h1>Create Succeed</h1>');
 				console.log('A model is Created');
 			}
-			res.write('<br><a href="/">Go Home</a></body></html>');
+			res.write('<a href="/create">Create Another</a><br>');
+			res.write('<br><a href="/">Go Home</a></body></html><br>');
+
 			res.end();
 			db.close();
 		});
 	});
+});
+
+//search
+app.get('/search', function(req,res) {
+	res.sendFile(__dirname + '/html/search.html'); 
 });
 
 //Read action
@@ -132,10 +140,11 @@ app.put('/updateRest/name/:name/newName/:newName', function(req, res){
 		    
 	});
 });
-
+/*
 //Delete action
 app.delete('/deleteRest/name/:name', function(req, res){
 	console.log("Delete Get it");
+
 	mongoose.connect(MONGODBURL);
         var db = mongoose.connection;
         db.on('error', console.error.bind(console, 'connection error:'));
@@ -151,7 +160,27 @@ app.delete('/deleteRest/name/:name', function(req, res){
 		    
 	});
 });
+*/
 
+//Delete action 2
+app.delete('/deleteRest/name/:id', function(req, res){
+	console.log(req.params.id);
+	console.log("Delete Get it");
+	mongoose.connect(MONGODBURL);
+        var db = mongoose.connection;
+        db.on('error', console.error.bind(console, 'connection error:'));
+        db.once('open', function (callback){
+	  var restaurant = mongoose.model('MiniRestaurant', restSchema);
+		restaurant.findOneAndRemove({restaurant_id:req.params.id}, function(err){
+			  if(err)
+			    res.write("<p>Error: " + err.message + "</p>");
+			  db.close();
+			  res.write("Delete success");
+			  res.end(); 
+			});
+		
+	});
+});
 
 /*app.get('/searchRest',function(req,res) {
 
