@@ -123,14 +123,25 @@ app.get('/display', function(req,res) {
 });
 
 //Update action
-app.put('/updateRest/name/:name/newName/:newName', function(req, res){
+app.put('/updateRest/:id/:value', function(req, res){
 	console.log("Put get it");
+	var data = req.params.value.split("!@&");
+	var jsondata = {address:{building: data[0],
+				         coord: [parseInt(data[1]),parseInt(data[2])],
+				         street: data[3],
+				         zipcode: data[4],
+				        },
+				       borough : data[5],
+				       cuisine : data[6],
+				       name : data[7]};
+	//console.log(jsondata);
 	mongoose.connect(MONGODBURL);
         var db = mongoose.connection;
         db.on('error', console.error.bind(console, 'connection error:'));
         db.once('open', function (callback){
 	  var restaurant = mongoose.model('MiniRestaurant', restSchema);
-		restaurant.findOneAndUpdate({name:req.params.name},{name:req.params.newName}, {upsert:false}, function(err){
+		restaurant.findOneAndUpdate({restaurant_id
+:req.params.id},jsondata, {upsert:false}, function(err){
 		  if(err)
 		    res.write("<p>Error: " + err.message + "</p>");
 		  db.close();
@@ -140,31 +151,9 @@ app.put('/updateRest/name/:name/newName/:newName', function(req, res){
 		    
 	});
 });
-/*
-//Delete action
-app.delete('/deleteRest/name/:name', function(req, res){
-	console.log("Delete Get it");
 
-	mongoose.connect(MONGODBURL);
-        var db = mongoose.connection;
-        db.on('error', console.error.bind(console, 'connection error:'));
-        db.once('open', function (callback){
-	  var restaurant = mongoose.model('MiniRestaurant', restSchema);
-		restaurant.findOneAndRemove({name:req.params.name}, function(err){
-		  if(err)
-		    res.write("<p>Error: " + err.message + "</p>");
-		  db.close();
-		  res.write("Delete success");
-		  res.end(); 
-		});
-		    
-	});
-});
-*/
-
-//Delete action 2
+//Delete action 
 app.delete('/deleteRest/name/:id', function(req, res){
-	console.log(req.params.id);
 	console.log("Delete Get it");
 	mongoose.connect(MONGODBURL);
         var db = mongoose.connection;

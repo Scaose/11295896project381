@@ -13,7 +13,7 @@
 		document.getElementById("txtStreet").value + "!@&" +
 		document.getElementById("txtZipcode").value + "!@&" + 
 		document.getElementById("txtBorough").value + "!@&" + 
-		document.getElementById("txtCuisine").value + "!@&" +
+		document.getElementById("txtCuisine").value; + "!@&" +
 		document.getElementById("txtName").value;
 		
     var link = "/updateRest/" + target +"/" + value;
