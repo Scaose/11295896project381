@@ -2,22 +2,24 @@
 <html>
 <head>
 <title>New Restaurant</title>
+<link rel="stylesheet" type="text/css" href="http://localhost:3081/main.css"/>
+<link rel="stylesheet" type="text/css" href="http://localhost:3081/create.css"/>
 </head>
 <body>
 
 <form action="/newRest" method="POST" align="center">
-<fieldset>
-<legend>New Restaurant Information:</legend>
+<fieldset class="lay1">
+<legend class="title1"><h1>New Restaurant Information:</h1></legend>
 	<% var id = restResult.length-1 %>
-	<fieldset>
-	<legend>Address:</legend>
+	<fieldset class="lay2">
+	<legend><h3>Address:</h3></legend>
 	building:<br>
 	<input type="text" name="building"><br>
-		<fieldset>
-		<legend>coord:</legend>
-		lat:<br>
+		<fieldset class="lay3">
+		<legend><h3>Coordinate:</h3></legend>
+		lantitude:<br>
 		<input type="number" step="any" name="lat"><br>
-		long:<br>
+		longitude:<br>
 		<input type="number" step="any" name="long"><br>
 		</fieldset>
 	street:<br>
@@ -51,7 +53,7 @@
 <input type="submit" value="create" />	
 </fieldset>
 </form>
-
+<br><br>
 <a href="/">Go Home</a>
 </body>
 </html>

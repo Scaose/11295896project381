@@ -5,20 +5,13 @@ var app = express();
 var MONGODBURL = 'mongodb://localhost:27017/test';
 
 var restSchema = require('./models/restaurant.js');
-
+app.use(express.static('public'));
 app.use(bodyparser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 
 app.get('/', function(req, res){
-  res.sendfile('html/main.html');
+  res.sendfile('html/main.html');	
 });
-
-/*
-//create.html
-app.get('/create', function(req,res) {
-	res.sendFile(__dirname + '/html/create.html'); 
-});
-*/
 
 //create.ejs
 app.get('/create', function(req,res) {

@@ -30,21 +30,29 @@ console.log(link);
 </script>
 <head>
 <title>Update Restaurant</title>
+<link rel="stylesheet" type="text/css" href="http://localhost:3081/main.css"/>
+<link rel="stylesheet" type="text/css" href="http://localhost:3081/update.css"/>
 </head>
 <body>
+<fieldset class="lay1">
+<legend><h1>Update Restaurant Information:</h1></legend>
   <% for(var i=0; i<restResult.length; i++){ %>
         <% if(restResult[i].name != null){ %>
           <p>Name: <input type='text' value='<%= restResult[i].name %>' name='<%= restResult[i].name %>' id='txtName' /></p>
         <% } %>
-
+	<fieldset class="lay2">
+	<legend><h3>Address:</h3></legend>
 	<% if(restResult[i].address != null){ %>
 	  <% if(restResult[i].address.building != null){ %>
             <p>Building: <input type='text' value='<%= restResult[i].address.building %>' name='<%= restResult[i].address.building %>' id='txtBuilding' /></p>
           <% } %>
+	  <fieldset class="lay3">
+	  <legend><h3>Coordinate:</h3></legend>
 	  <% if(restResult[i].address.coord != null){ %>
-	    <p>Lantitude: <input type='text' value='<%= restResult[i].address.coord[0] %>' name='<%= restResult[i].address.coord[0] %>' id='txtLan' /></p>
-	    <p>Lontitude: <input type='text' value='<%= restResult[i].address.coord[1] %>' name='<%= restResult[i].address.coord[1] %>' id='txtLon' /></p>
+	    <p>Lantitude: <input type="number" step="any" value='<%= restResult[i].address.coord[0] %>' name='<%= restResult[i].address.coord[0] %>' id='txtLan' /></p>
+	    <p>Longitude: <input type="number" step="any" value='<%= restResult[i].address.coord[1] %>' name='<%= restResult[i].address.coord[1] %>' id='txtLon' /></p>
 	  <% } %> 
+	  </fieldset>
 	  <% if(restResult[i].address.street != null){ %>
             <p>Street: <input type='text' value='<%= restResult[i].address.street %>' name='<%= restResult[i].address.street %>' id='txtStreet' /></p>
           <% } %>
@@ -52,7 +60,7 @@ console.log(link);
 	    <p>Zipcode: <input type='text' value='<%= restResult[i].address.zipcode %>' name='<%= restResult[i].address.zipcode %>' id='txtZipcode' /></p>
 	  <% } %>   
 	<% } %>
-	
+	</fieldset>
 	<% if(restResult[i].borough != null){ %>
           <p>Borough: <input type='text' value='<%= restResult[i].borough %>' name='<%= restResult[i].borough %>' id='txtBorough' /></p>
         <% } %>
@@ -64,5 +72,8 @@ console.log(link);
         <% } %>
   <% } %>
 <p align='left'><input type='button' value='submit' Onclick='OnSubmit()'/></p>
+</fieldset>
+<br><br>
+<a href="/">Go Home</a>
 </body>
 </html>
