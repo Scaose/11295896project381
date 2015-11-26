@@ -5,38 +5,17 @@ var app = express();
 var MONGODBURL = 'mongodb://localhost:27017/test';
 
 var restSchema = require('./models/restaurant.js');
-
+app.use(express.static('public'));
 app.use(bodyparser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 
 app.get('/', function(req, res){
-  res.sendfile('html/main.html');
+  res.sendfile('html/main.html');	
 });
-
-/*
-//create.html
-app.get('/create', function(req,res) {
-	res.sendFile(__dirname + '/html/create.html'); 
-});
-*/
 
 //create.ejs
 app.get('/create', function(req,res) {
-	console.log("send id to create page");
-        mongoose.connect(MONGODBURL);
-        var db = mongoose.connection;
-        db.on('error', console.error.bind(console, 'connection error:'));
-        db.once('open', function (callback){
-	  var restaurant = mongoose.model('MiniRestaurant', restSchema);
-		restaurant.find({}, function(err, results){
-		  if(err)
-		    res.write("<p>Error: " + err.message + "</p>");
-		  db.close();
-		  res.render('create',  {restResult : results}); 
-		  res.end(); 
-		});
-		    
-	});
+   res.sendfile('html/create.html');
 });
 
 //update.ejs
@@ -71,7 +50,7 @@ app.post('/newRest', function(req,res) {
 		console.log("Connect to DB");
 		var restaurant = mongoose.model('MiniRestaurant', restSchema);
 		var r = new restaurant({address:{building: req.body.building,
-				         coord: [parseInt(req.body.lat),parseInt(req.body.long)],
+				         coord: [parseInt(req.body.lon),parseInt(req.body.lat)],
 				         street: req.body.street,
 				         zipcode: req.body.zipcode,
 				        },

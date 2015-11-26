@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>New Restaurant</title>
+<link rel="stylesheet" type="text/css" href="http://localhost:3081/main.css"/>
+<link rel="stylesheet" type="text/css" href="http://localhost:3081/create.css"/>
+
+<SCRIPT language="javascript">
+function add() {
+
+
+	//Create an input type dynamically.
+	var date= document.createElement("input");
+	date.setAttribute("type", "date");
+	date.setAttribute("value", "date");
+	date.setAttribute("name", date);
+
+	var grade= document.createElement("input");
+	grade.setAttribute("type", "text");
+	grade.setAttribute("pattern", "[A-Z]");
+	grade.setAttribute("value", "A-Z");
+	grade.setAttribute("name", grade);
+
+	var score= document.createElement("input");
+	score.setAttribute("type", "number");
+	score.setAttribute("value", 0);
+	score.setAttribute("name", score);
+
+	var foo = document.getElementById("fooBar");
+        var br = document.createElement("br");
+
+        foo.appendChild(br);
+	foo.appendChild(date);
+        foo.appendChild(grade);
+        foo.appendChild(score);
+
+}
+</SCRIPT>
+
+</head>
+<body>
+
+<form action="/newRest" method="POST" align="center">
+<fieldset class="lay1">
+<legend class="title1"><h1>New Restaurant Information:</h1></legend>
+
+	name:<br>
+	<input type="text" name="dataName"><br>
+
+	<fieldset class="lay2">
+	<legend><h3>Address:</h3></legend>
+	building:<br>
+	<input type="text" name="building"><br>
+		<fieldset class="lay3">
+		<legend><h3>Coordinate:</h3></legend>
+		lon:<br>
+		<input type="number" step="any" name="lon"><br>
+		lat:<br>
+		<input type="number" step="any" name="lat"><br>
+		</fieldset>
+	street:<br>
+	<input type="text" name="street"><br>
+	zipcode:<br>
+	<input type="text" name="zipcode"><br>
+	</fieldset>
+	
+	borough:<br>
+	<input type="text" name="borough"><br>
+	cuisine:<br>
+	<input type="text" name="cuisine"><br>
+
+	<fieldset class="lay4">
+	<legend><h3>Grades:(date,grade,score)</h3></legend>
+	<FORM>
+	<SELECT name="element">
+	<OPTION value="text">Grades</OPTION>
+	</SELECT>
+	<INPUT type="button" value="Add" onclick="add()"/>
+	<span id="fooBar">&nbsp;</span>
+	</FORM>
+	</fieldset>
+
+	<br>
+	restaurant_id:<br>
+	<input type="number" name="restaurant_id"><br>
+
+<input type="submit" value="create" />	
+</fieldset>
+</form>
+<br><br>
+<a href="/">Go Home</a>
+</body>
+</html>
