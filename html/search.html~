@@ -2,14 +2,14 @@
 <html>
 <head>
 <title>Search Restaurant</title>
-<link rel="stylesheet" type="text/css" href="http://localhost:3081/main.css"/>
-<link rel="stylesheet" type="text/css" href="http://localhost:3081/search.css"/>
+<link rel="stylesheet" type="text/css" href="http://scaoseouminiproject0381.azurewebsites.net/public/main.css"/>
+<link rel="stylesheet" type="text/css" href="http://scaoseouminiproject0381.azurewebsites.net/public/search.css"/>
 </head>
 <body>
 <div class="lay1">
 <form action="/searchRest" method=get align="center">
 <p>
-  <select>
+  <select name="field">
     <option value="name">Name</option>
     <option value="building">Building</option>
     <option value="street">Street</option>
