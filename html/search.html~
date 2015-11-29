@@ -9,7 +9,7 @@
 <div class="lay1">
 <form action="/searchRest" method=get align="center">
 <p>
-  <select name="field">
+  <select>
     <option value="name">Name</option>
     <option value="building">Building</option>
     <option value="street">Street</option>

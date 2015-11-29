@@ -1,7 +1,7 @@
 {
 "name": "server",
 "description": "NodeJS Express App",
-"author": "Scaose <owentang0427@hotmail.com>",
+"author": "Scaose <owentang0326@hotmail.com>",
 "version": "0.0.1",
 "dependencies": {
 "mongoose": "*",

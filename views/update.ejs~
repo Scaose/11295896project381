@@ -9,7 +9,7 @@
 		"cuisine" + "," +
 		"name";
     var value = document.getElementById("txtBuilding").value + "!@&" +
-		document.getElementById("txtLon").value + "!@&" + document.getElementById("txtLan").value + "!@&" +
+		document.getElementById("txtLon").value + "!@&" + document.getElementById("txtLon").value + "!@&" +
 		document.getElementById("txtStreet").value + "!@&" +
 		document.getElementById("txtZipcode").value + "!@&" + 
 		document.getElementById("txtBorough").value + "!@&" + 
