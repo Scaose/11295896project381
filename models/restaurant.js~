@@ -8,6 +8,10 @@ var restSchema = mongoose.Schema({
 			},
 	borough:String,
 	cuisine:String,
+	grades:[{date:Date,
+			grade:String,
+			Score:Number,
+			}],
 	name:String,
 	restaurant_id:String
 });

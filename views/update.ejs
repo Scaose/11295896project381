@@ -30,8 +30,8 @@ console.log(link);
 </script>
 <head>
 <title>Update Restaurant</title>
-<link rel="stylesheet" type="text/css" href="http://localhost:3081/main.css"/>
-<link rel="stylesheet" type="text/css" href="http://localhost:3081/update.css"/>
+<link rel="stylesheet" type="text/css" href="http://scaoseouminiproject0381.azurewebsites.net/main.css"/>
+<link rel="stylesheet" type="text/css" href="http://scaoseouminiproject0381.azurewebsites.net/update.css"/>
 </head>
 <body>
 <fieldset class="lay1">
@@ -66,6 +66,25 @@ console.log(link);
         <% } %>
 	<% if(restResult[i].cuisine != null){ %>
           <p>Cuisine: <input type='text' value='<%= restResult[i].cuisine %>' name='<%= restResult[i].cuisine %>' id='txtCuisine' /></p>
+        <% } %>
+	<% if(restResult[i].grades != null){ %>
+	  <fieldset class="lay4">
+	  <legend><h3>Grades</h3></legend>
+	  <% for(var j=0; j<restResult[i].grades.length; j++){ %>
+	    <fieldset class="lay5">
+	    <legend><h3>Grade</h3></legend>
+	    <% if(restResult[i].grades[j].date != null){ %>
+            	<p>Date: <%= restResult[i].grades[j].date %> </p>
+	    <%} %>
+	    <% if(restResult[i].grades[j].grade != null){ %>
+	    	<p>Grade: <%= restResult[i].grades[j].grade %> </p>
+	    <%} %>
+	    <% if(restResult[i].grades[j].score != null){ %>
+	    	<p>Score: <%= restResult[i].grades[j].score %> </p>
+	    <%} %>
+	    </fieldset>
+	  <%} %>
+	  </fieldset>
         <% } %>
 	<% if(restResult[i].restaurant_id != null){ %>
           <p hidden name='<%= restResult[i].restaurant_id %>' id='txtID'><%= restResult[i].restaurant_id %></p>

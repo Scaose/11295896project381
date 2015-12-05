@@ -2,8 +2,8 @@
 <html>
 <head>
 <title>New Restaurant</title>
-<link rel="stylesheet" type="text/css" href="http://scaoseouminiproject0381.azurewebsites.net/public/main.css"/>
-<link rel="stylesheet" type="text/css" href="http://scaoseouminiproject0381.azurewebsites.net/public/create.css"/>
+<link rel="stylesheet" type="text/css" href="http://scaoseouminiproject0381.azurewebsites.net/main.css"/>
+<link rel="stylesheet" type="text/css" href="http://scaoseouminiproject0381.azurewebsites.net/create.css"/>
 
 <SCRIPT language="javascript">
 function add() {
@@ -70,7 +70,7 @@ function add() {
 	<input type="text" name="cuisine"><br>
 
 	<fieldset class="lay4">
-	<legend><h3>Grades:(date,grade,score)</h3></legend>
+	<!--legend><h3>Grades:(date,grade,score)</h3></legend>
 	<FORM>
 	<SELECT name="element">
 	<OPTION value="text">Grades</OPTION>
@@ -78,7 +78,7 @@ function add() {
 	<INPUT type="button" value="Add" onclick="add()"/>
 	<span id="fooBar">&nbsp;</span>
 	</FORM>
-	</fieldset>
+	</fieldset-->
 
 	<br>
 	restaurant_id:<br>

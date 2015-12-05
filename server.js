@@ -10,8 +10,12 @@ app.use(express.static('public'));
 app.use(bodyparser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 
+app.get("", function(req, res){
+	res.sendfile('html/main.html');
+});
+
 app.get('/', function(req, res){
-  res.sendfile('html/main.html');	
+  	res.sendfile('html/main.html');	
 });
 
 
@@ -54,8 +58,8 @@ function CreateRestaurantObj(body){
 		obj.address.coord.push(parseInt(body.lon));
 	else
 		obj.address.coord.push(null);
-	if(body.lan != null)
-		obj.address.coord.push(parseInt(body.lan));
+	if(body.lat != null)
+		obj.address.coord.push(parseInt(body.lat));
 	else
 		obj.address.coord.push(null);
 	if(body.street != null)
@@ -97,6 +101,17 @@ function MergeRestaurantObj(oldObj, newObj){
 	return oldObj;
 }
 
+function ParamToObj(field, value){
+	var datajson = {};
+	switch (field){
+	case "date": case "grade": case "score": {var d={};d[field] = value;datajson["grades"] =  {$elemMatch: d};break;}
+	case "building": case "street": case "zipcode": {datajson["address." + field] =  value;break;}
+	case "lon":case "lat": {datajson["address.coord"] =  value;break;}
+	default: {datajson[field] = value;break;}	
+	}
+	return datajson;
+}
+
 //curl create
 app.post('/', function(req,res) {
 	console.log("Create from curl");
@@ -127,8 +142,7 @@ app.delete('/:field/:value', function(req, res){
 	console.log("Delete From curl");
 	mongoose.connect(MONGODBURL);
         var db = mongoose.connection;
-	var datajson = {};
-	datajson[req.params.field] = req.params.value;
+	var datajson = ParamToObj(req.params.field, req.params.value);
         db.on('error', console.error.bind(console, 'connection error:'));
         db.once('open', function (callback){
 	  var restaurant = mongoose.model('Restaurant', restSchema);
@@ -149,34 +163,125 @@ app.delete('/:field/:value', function(req, res){
 //curl Update
 app.put('/:field/:value', function(req, res){
 	console.log("Update From curl");
-	var jsoncondition={};
-	jsoncondition[req.params.field] = req.params.value;
+	var jsoncondition=ParamToObj(req.params.field, req.params.value);
 	mongoose.connect(MONGODBURL);
         var db = mongoose.connection;
         db.on('error', console.error.bind(console, 'connection error:'));
         db.once('open', function (callback){
 	  var restaurant = mongoose.model('Restaurant', restSchema);
-		restaurant.findOne(jsoncondition, function(err, result){
+		restaurant.find(jsoncondition, function(err, result){
 			  if(err){
 			    res.status(500).json(err);
 			    throw err;
 			  }
 			  var jsonupdatedata = CreateRestaurantObj(req.body);
-			  jsonupdatedata = MergeRestaurantObj(result, jsonupdatedata);
-			  //result = jsonupdatedata;
-			  //result.save(); <-- I don't know why this function cannot save coord
-			  //a lazy function to solve the above problem...
-			  restaurant.update(jsoncondition, jsonupdatedata, function(err){
-				    if(err){
-				      res.status(500).json(err);
-				      throw err;
-				    }
-				  db.close();
-				  var msg = {message: "Update done"};
-				  msg[req.params.field] = req.params.value;
-				  res.status(200).json(msg);
-				  res.end(); 
-			  });
+			  for(var i=0;i<result.length;i++){
+			    MergeRestaurantObj(result[i], jsonupdatedata).save();
+			  }
+			  db.close();
+
+		  	  var msg = {message: "Update done"};
+			  msg[req.params.field] = req.params.value;
+			  res.status(200).json(msg);
+			  res.end(); 
+		});
+				
+	});
+});
+
+//curl update insert grade
+app.put('/:field/:value/grade', function(req, res){
+	console.log("Update grade from curl");
+	var jsoncondition=ParamToObj(req.params.field, req.params.value);
+	var dataObj = {};
+  	if(req.body.date != null){
+	  dataObj.date = req.body.date;	
+ 	}
+  	if(req.body.grade != null){
+	  dataObj.grade = req.body.grade;	
+  	}
+  	if(req.body.score != null){
+	  dataObj.score = req.body.score;	
+  	}
+	mongoose.connect(MONGODBURL);
+        var db = mongoose.connection;
+        db.on('error', console.error.bind(console, 'connection error:'));
+        db.once('open', function (callback){
+	  var restaurant = mongoose.model('Restaurant', restSchema);
+		restaurant.find(jsoncondition, function(err, result){
+
+			  if(err){
+			    res.status(500).json(err);
+			    throw err;
+			  }
+			  for(var i=0;i<result.length;i++){	
+				result[i].grades.push(dataObj);
+			  	result[i].save();				
+			  }
+			  db.close();
+			  var msg = {message: "Update done"};
+			  res.status(200).json(msg);
+			  res.end(); 
+			
+		});
+				
+	});
+
+});
+
+//curl Update Grades
+app.put('/:field/:value/updategrade', function(req, res){
+	console.log("Update grade from curl");
+	var jsoncondition=ParamToObj(req.params.field, req.params.value);
+	var dataObj = {};
+  	if(req.body.date != null){
+	  dataObj.date = req.body.date;	
+  	}
+  	if(req.body.grade != null){
+	  dataObj.grade = req.body.grade;	
+  	}
+  	if(req.body.score != null){
+	  dataObj.score = req.body.score;	
+  	}
+	mongoose.connect(MONGODBURL);
+        var db = mongoose.connection;
+        db.on('error', console.error.bind(console, 'connection error:'));
+        db.once('open', function (callback){
+	  var restaurant = mongoose.model('Restaurant', restSchema);
+		restaurant.find(jsoncondition, function(err, result){
+
+			  if(err){
+			    res.status(500).json(err);
+			    throw err;
+			  }
+			  for(var i=0;i<result.length;i++){
+				var found = false;
+			    	for(var j=0; j<result[i].grades.length;j++){
+					if(dataObj.date != null){
+						if(result[i].grades[j].date.valueOf() == new Date(dataObj.date).valueOf()){
+							if(dataObj.grade != null){
+								result[i].grades[j].grade = dataObj.grade;	
+						 	}
+						  	if(dataObj.score != null){
+							  	result[i].grades[j].score = dataObj.score;	
+						  	}
+							result[i].save();
+							found = true;
+							break;
+						}
+					}
+				}
+				if(!found){
+					
+					result[i].grades.push(dataObj);
+					result[i].save();				
+				}
+			  }
+			  db.close();
+			  var msg = {message: "Update done"};
+			  res.status(200).json(msg);
+			  res.end(); 
+			
 		});
 				
 	});
@@ -185,8 +290,7 @@ app.put('/:field/:value', function(req, res){
 //curl Read
 app.get('/:field/:value', function(req,res) {
 	console.log("Search get it");
-	var datajson = {};
-	datajson[req.params.field] = req.params.value;
+	var datajson = ParamToObj(req.params.field, req.params.value);
         mongoose.connect(MONGODBURL);
         var db = mongoose.connection;
         db.on('error', console.error.bind(console, 'connection error:'));
@@ -213,9 +317,6 @@ app.get('/:field/:value', function(req,res) {
 //Create action for web
 app.post('/newRest', function(req,res) {
 	console.log("Create get it");
-	//var restData = {name: ""};
-	//restData.name = req.body.dataName;
-	console.log(req.body.dataName);
 	mongoose.connect(MONGODBURL);
 	var db = mongoose.connection;
 	db.on('error', console.error.bind(console, 'connection error:'));
@@ -231,7 +332,6 @@ app.post('/newRest', function(req,res) {
 				       cuisine : req.body.cuisine,
 				       name : req.body.dataName,
 				       restaurant_id : req.body.restaurant_id});
-		//var newData = new restaurant (r);
 		r.save(function(err) {
 			res.write('<html><body>');
 			if (err) {
@@ -329,8 +429,16 @@ app.put('/updateRest/:id/:value', function(req, res){
 });
 
 //Delete action for web
-app.delete('/deleteRest/name/:id', function(req, res){
+app.delete('/delete/restaurant_id/:id', function(req, res){
 	console.log("Delete Get it");
+	console.log(req.params.id);
+	var datajson = "{$or[";
+	var values = req.params.id.split("!@,");
+	for(i in values){
+	datajson+="{restaurant_id:"+i+"}";	
+	}
+	datajson+="]}";
+	console.log(datajson);
 	mongoose.connect(MONGODBURL);
         var db = mongoose.connection;
         db.on('error', console.error.bind(console, 'connection error:'));

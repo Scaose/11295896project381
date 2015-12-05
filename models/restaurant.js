@@ -10,7 +10,7 @@ var restSchema = mongoose.Schema({
 	cuisine:String,
 	grades:[{date:Date,
 			grade:String,
-			Score:Number,
+			score:Number,
 			}],
 	name:String,
 	restaurant_id:String

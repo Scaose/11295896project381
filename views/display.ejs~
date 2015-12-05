@@ -29,8 +29,8 @@
 </script>
 <head>
 <title>Search Restaurant</title>
-<link rel="stylesheet" type="text/css" href="http://scaoseouminiproject0381.azurewebsites.net/main.css"/>
-<link rel="stylesheet" type="text/css" href="http://scaoseouminiproject0381.azurewebsites.net/display.css"/>
+<link rel="stylesheet" type="text/css" href="http://localhost:3081/main.css"/>
+<link rel="stylesheet" type="text/css" href="http://localhost:3081/display.css"/>
 </head>
 <body>
 <div class="lay1">
