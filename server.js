@@ -160,6 +160,29 @@ app.delete('/:field/:value', function(req, res){
 	});
 });
 
+//curl delete all
+app.delete('/all', function(req, res){
+	console.log("Delete all From curl");
+	mongoose.connect(MONGODBURL);
+        var db = mongoose.connection;
+	var datajson = ParamToObj(req.params.field, req.params.value);
+        db.on('error', console.error.bind(console, 'connection error:'));
+        db.once('open', function (callback){
+	  var restaurant = mongoose.model('Restaurant', restSchema);
+		restaurant.remove({}, function(err){
+			  if(err){
+			    res.status(500).json(err);
+			    throw err;
+			  }
+			  db.close();
+			  res.status(200).json({message: "delete all done", restaurant_id : req.params.id});
+			  res.end(); 
+			});
+
+		
+	});
+});
+
 //curl Update
 app.put('/:field/:value', function(req, res){
 	console.log("Update From curl");
@@ -297,6 +320,32 @@ app.get('/:field/:value', function(req,res) {
         db.once('open', function (callback){
 	  var restaurant = mongoose.model('Restaurant', restSchema);
 		restaurant.find(datajson, function(err, results){
+		  if(err){
+		    res.status(500).json(err);
+		    throw err;
+		  }
+		  db.close();
+		  if(results.length>0){	//Has result	   
+		      res.status(200).json(results);
+		  }
+		  else{			//No result
+		      res.status(200).json({message:"No matching document"});
+		  }
+		  res.end(); 
+		});
+		    
+	});
+});
+
+//curl Read all
+app.get('/all', function(req,res) {
+	console.log("Search all get it");
+        mongoose.connect(MONGODBURL);
+        var db = mongoose.connection;
+        db.on('error', console.error.bind(console, 'connection error:'));
+        db.once('open', function (callback){
+	  var restaurant = mongoose.model('Restaurant', restSchema);
+		restaurant.find({}, function(err, results){
 		  if(err){
 		    res.status(500).json(err);
 		    throw err;
