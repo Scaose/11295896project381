@@ -68,8 +68,8 @@ console.log(link);
           <p>Cuisine: <input type='text' value='<%= restResult[i].cuisine %>' name='<%= restResult[i].cuisine %>' id='txtCuisine' /></p>
         <% } %>
 	<% if(restResult[i].grades != null){ %>
-	  <%= <fieldset class="lay4"> %>
-	  <%= <legend><h3>Grades</h3></legend> %>
+	  <fieldset class="lay4">
+	  <legend><h3>Grades</h3></legend>
 	  <% for(var j=0; j<restResult[i].grades.length; j++){ %>
 	    <fieldset class="lay5">
 	    <legend><h3>Grade</h3></legend>

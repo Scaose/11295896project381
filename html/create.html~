@@ -69,8 +69,8 @@ function add() {
 	cuisine:<br>
 	<input type="text" name="cuisine"><br>
 
-	<fieldset class="lay4">
-	<!--legend><h3>Grades:(date,grade,score)</h3></legend>
+	<!--fieldset class="lay4">
+	<legend><h3>Grades:(date,grade,score)</h3></legend>
 	<FORM>
 	<SELECT name="element">
 	<OPTION value="text">Grades</OPTION>

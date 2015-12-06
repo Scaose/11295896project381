@@ -2,8 +2,8 @@
 <html>
 <head>
 <title>Mini Project Index Page</title>
-<link rel="stylesheet" type="text/css" href="http://scaoseouminiproject0381.azurewebsites.net/public/index.css"/>
-<link rel="stylesheet" type="text/css" href="http://scaoseouminiproject0381.azurewebsites.net/public/main.css"/>
+<link rel="stylesheet" type="text/css" href="http://scaoseouminiproject0381.azurewebsites.net/index.css"/>
+<link rel="stylesheet" type="text/css" href="http://scaoseouminiproject0381.azurewebsites.net/main.css"/>
 </head>
 <body>
 <div class="menu">
